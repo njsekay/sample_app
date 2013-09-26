@@ -1,0 +1,39 @@
+<% if signed_in? %>
+  <div class="row">
+    <aside class="span4">
+      <section>
+        <%= render 'shared/user_info' %>
+      </section>
+    </aside>
+    <div class="span8">
+      <h3>勤怠</h3>
+      <table border="1">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
+        <% for attendance in @attendances %>
+          <tr>
+            <td>
+              <%= attendance.year %>
+            </td>
+            <td>
+              <%= attendance.month %>
+            </td>
+            <td>
+              <%= attendance.jitudou_time %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+
+      <%= form_tag :action => 'update_all' do %>
+      	<%= submit_tag "更新" %>
+	  <% end %>
+</div>
+</div>
+<% end %>
+
+
+

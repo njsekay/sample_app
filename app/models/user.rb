@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
+  
   has_many :microposts, dependent: :destroy
+  
+  has_many :attendances, dependent: :destroy
+  
+  
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
 
@@ -18,7 +23,13 @@ class User < ActiveRecord::Base
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, if: lambda { |m| m.password.present? }
+  # validates :password, length: { minimum: 6 }
+
+  accepts_nested_attributes_for :attendances
+
+
+  
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64

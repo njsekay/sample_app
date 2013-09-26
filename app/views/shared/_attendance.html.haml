@@ -1,0 +1,103 @@
+
+%span プロジェクト名:XXXXXX
+%br
+%span 所属:XXXXXX
+%br
+%span 氏名:XXXXXX
+%hr
+
+= form_for @user, :url => {:action => 'update'}, :html => { :class => "form-horizontal"} do |f|
+  
+  -# エラー出力
+  = render 'shared/error_messages', object: f.object
+
+  /勤怠表
+  = f.hidden_field :id
+  #attendances.attendances{ :data => { :attendances_size => "#{@user.attendances.size}"}}
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %th 日付
+        %th 曜日
+        %th 勤務
+        %th 出勤
+        %th 退勤
+        %th 傷病欠
+        %th 欠勤
+        %th 半欠勤
+        %th 遅刻
+        %th 早退
+        %th 私外出
+        %th 特休
+        %th 振休
+        %th 有休
+        %th 出張
+        %th
+          %span
+            超過
+          %br
+            時間
+        %th
+          %span
+            休日
+          %br
+            時間
+        %th
+          %span
+            深夜
+          %br
+            時間
+        %th
+          %span
+            休憩
+          %br
+            時間
+        %th
+          %span
+            控除
+          %br
+            時間
+        %th
+          %span
+            実働
+          %br
+            時間
+        %th 備考
+    %tbody
+      = f.fields_for :attendances do |a|
+        = a.hidden_field :id
+        %tr
+          %td{:width => "40px;"}
+            = sprintf("%02d", a.object.month)
+            \/
+            = sprintf("%02d", a.object.day)
+            = a.hidden_field :attendance_date
+            = a.hidden_field :year
+            = a.hidden_field :month
+            = a.hidden_field :day
+            = a.hidden_field :kyuujitu_kbn
+            = a.hidden_field :kaigi_kbn
+          %td
+            = a.object.wday
+            = a.hidden_field :wday
+          %td= a.text_field :kinmu_kbn, :size => 3, :maxlength =>1
+          %td= a.text_field :start_time, :size => 15, :maxlength =>5
+          %td= a.text_field :end_time, :size => 15, :maxlength =>5
+          %td= a.check_box :byouketu, {}, true, false
+          %td= a.check_box :kekkin, {}, true, false
+          %td= a.check_box :hankekkein, {}, true, false
+          %td= a.check_box :tikoku, {}, true, false
+          %td= a.check_box :soutai, {}, true, false
+          %td= a.check_box :gaisyutu, {}, true, false
+          %td= a.check_box :tokkyuu, {}, true, false
+          %td= a.check_box :furikyuu, {}, true, false
+          %td= a.check_box :yuukyuu, {}, true, false
+          %td= a.check_box :hankyuu, {}, true, false
+          %td= a.text_field :tyouka_time, :size => 15, :maxlength =>5
+          %td= a.text_field :kyujitu_time, :size => 15, :maxlength =>5
+          %td= a.text_field :sinya_time, :size => 15, :maxlength =>5
+          %td= a.text_field :kyuukei_time, :size => 15, :maxlength =>5
+          %td= a.text_field :koujo_time, :size => 15, :maxlength =>5
+          %td= a.text_field :jitudou_time, :size => 15, :maxlength =>5
+          %td= a.text_field :remarks, :size => 50, :maxlength => 60
+  = f.submit "保存"

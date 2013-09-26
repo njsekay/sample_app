@@ -1,0 +1,13 @@
+<% if signed_in? %>
+  <div class="row">
+    <aside class="span2">
+      <section>
+        <%= render 'shared/user_info' %>
+      </section>
+    </aside>
+    <div class="span14">
+      <h3>勤怠</h3>
+      <%= render 'shared/attendance' %>
+    </div>
+  </div>
+<% end %>

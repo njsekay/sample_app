@@ -242,6 +242,17 @@ aside {
   textarea {
     height: 100px;
     margin-bottom: 5px;
+    padding: 0px;
+    margin: 0px;
   }
 }
+
+/* 勤怠 */  
+.table th, .table td{
+  font-size: 0.8em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
 

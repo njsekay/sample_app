@@ -11,7 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130905145821) do
+ActiveRecord::Schema.define(version: 20130926135038) do
+
+  create_table "attendances", force: true do |t|
+    t.date     "attendance_date"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
+    t.boolean  "byouketu"
+    t.boolean  "kekkin"
+    t.boolean  "hankekkein"
+    t.boolean  "tikoku"
+    t.boolean  "soutai"
+    t.boolean  "gaisyutu"
+    t.boolean  "tokkyuu"
+    t.boolean  "furikyuu"
+    t.boolean  "yuukyuu"
+    t.boolean  "hankyuu"
+    t.float    "tyouka_time",               default: 0.0
+    t.float    "kyujitu_time",              default: 0.0
+    t.float    "sinya_time",                default: 0.0
+    t.float    "kyuukei_time",              default: 0.0
+    t.float    "koujo_time",                default: 0.0
+    t.float    "jitudou_time",              default: 0.0
+    t.string   "remarks"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "start_time",      limit: 5, default: "00:00", null: false
+    t.string   "end_time",        limit: 5, default: "00:00", null: false
+    t.string   "kyuujitu_kbn",    limit: 1, default: "0",     null: false
+    t.string   "kaigi_kbn",       limit: 1, default: "1",     null: false
+    t.string   "kinmu_kbn",       limit: 1, default: "1",     null: false
+    t.string   "wday",            limit: 1
+  end
+
+  add_index "attendances", ["user_id", "year", "month"], name: "index_attendances_on_user_id_and_year_and_month"
 
   create_table "microposts", force: true do |t|
     t.string   "content"

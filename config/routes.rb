@@ -1,4 +1,12 @@
+# -*- coding: utf-8 -*-
 SampleApp::Application.routes.draw do
+  # get "attendances/index"
+  match '/attendance', to: 'attendances#index', via: 'get'
+
+  # viaまできちんと指定しないとだめ
+  match '/attendance/update', to: 'attendances#update', via: 'patch'
+
+  
   resources :users do
     member do
       get :following, :followers
