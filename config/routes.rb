@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 SampleApp::Application.routes.draw do
   # get "attendances/index"
-  match '/attendance', to: 'attendances#index', via: 'get'
+  match '/attendances', to: 'attendances#index', via: 'get'
 
   # viaまできちんと指定しないとだめ
-  match '/attendance/update', to: 'attendances#update', via: 'patch'
+  match '/attendances/update', to: 'attendances#update', via: 'patch'
+  match '/attendances/print', to: 'attendances#print', via: :get
 
   
   resources :users do

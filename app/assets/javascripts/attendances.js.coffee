@@ -20,3 +20,6 @@ $ ->
                 syousuu_format('#user_attendances_attributes_' + i + '_kyuukei_time');
                 syousuu_format('#user_attendances_attributes_' + i + '_koujo_time');
                 syousuu_format('#user_attendances_attributes_' + i + '_jitudou_time');
+
+$ ->
+        $('.timepicker').timepicker({minuteStep: 15, showSeconds: false, showMeridian: false})

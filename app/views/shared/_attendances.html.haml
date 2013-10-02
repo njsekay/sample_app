@@ -66,7 +66,7 @@
     %tbody
       = f.fields_for :attendances do |a|
         = a.hidden_field :id
-        %tr
+        %tr{ :class => "#{(a.object.wday != '日' and a.object.wday != '土') ? 'normal' : 'error' }"}
           %td{:width => "40px;"}
             = sprintf("%02d", a.object.month)
             \/
@@ -81,8 +81,16 @@
             = a.object.wday
             = a.hidden_field :wday
           %td= a.text_field :kinmu_kbn, :size => 3, :maxlength =>1
-          %td= a.text_field :start_time, :size => 15, :maxlength =>5
-          %td= a.text_field :end_time, :size => 15, :maxlength =>5
+          %td
+            .input-append.bootstrap-timepicker
+              = a.text_field :start_time, :size => 10, :maxlength =>5, class:'timepicker input-small'
+              %span.add-on
+                %i.icon-time
+          %td
+            .input-append.bootstrap-timepicker
+              = a.text_field :end_time, :size => 15, :maxlength =>5, class:'timepicker input-small'
+              %span.add-on
+                %i.icon-time
           %td= a.check_box :byouketu, {}, true, false
           %td= a.check_box :kekkin, {}, true, false
           %td= a.check_box :hankekkein, {}, true, false
@@ -101,3 +109,5 @@
           %td= a.text_field :jitudou_time, :size => 15, :maxlength =>5
           %td= a.text_field :remarks, :size => 50, :maxlength => 60
   = f.submit "保存"
+
+= button_to "帳票出力", attendances_print_path(format: 'pdf'), {:method => "get", class: "bth"}
