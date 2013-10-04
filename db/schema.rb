@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130926135038) do
+ActiveRecord::Schema.define(version: 20131003130109) do
 
   create_table "attendances", force: true do |t|
     t.date     "attendance_date"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20130926135038) do
     t.boolean  "tokkyuu"
     t.boolean  "furikyuu"
     t.boolean  "yuukyuu"
-    t.boolean  "hankyuu"
+    t.boolean  "syuttyou"
     t.float    "tyouka_time",               default: 0.0
     t.float    "kyujitu_time",              default: 0.0
     t.float    "sinya_time",                default: 0.0

@@ -35,6 +35,12 @@ textarea {
   }
 }
 
+.container{
+  margin-left:0px;
+  margin-right:0px;
+  padding: 0px;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -247,12 +253,7 @@ aside {
   }
 }
 
-/* 勤怠 */  
-.table th, .table td{
-  font-size: 0.8em;
-  text-align: center;
-  vertical-align: middle;
-}
+
 
 
 

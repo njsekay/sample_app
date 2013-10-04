@@ -37,20 +37,19 @@ class AttendancesController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:user][:id])
-    
-    if @user.update_attributes(user_params)
-      logger.unknown("UPDATE SUCCESS")
-      redirect_to attendances_path(current_user)
-    else
-      logger.unknown("UPDATE FAILED")
-      render 'index'
-    end
-  end
 
-  def print
-    respond_to do |format|
-      format.pdf { output_attendance_list(current_user)}
+    if params[:commit] == "帳票出力"
+      output_attendance_list(current_user)
+    else
+      @user = User.find(params[:user][:id])
+      
+      if @user.update_attributes(user_params)
+        logger.unknown("UPDATE SUCCESS")
+        redirect_to attendances_path(current_user)
+      else
+        logger.unknown("UPDATE FAILED")
+        render 'index'
+      end
     end
   end
 
@@ -59,7 +58,7 @@ class AttendancesController < ApplicationController
   def user_params
     params.require(:user).permit(:name,
       attendances_attributes: [:id, :attendance_date, :year, :month, :day, :wday, :start_time, :end_time,
-        :byouketu, :kekkin, :hankekkein, :tikoku, :soutai, :gaisyutu, :tokkyuu, :furikyuu, :yuukyuu, :hankyuu,
+        :byouketu, :kekkin, :hankekkein, :tikoku, :soutai, :gaisyutu, :tokkyuu, :furikyuu, :yuukyuu, :syuttyou,
         :tyouka_time, :kyujitu_time, :sinya_time, :kyuukei_time, :koujo_time, :jitudou_time, :remarks, :kyuujitu_kbn, :kaigi_kbn, :kinmu_kbn])
   end
 
@@ -91,29 +90,72 @@ class AttendancesController < ApplicationController
         if "#{attendance.day}" == "1" or "#{attendance.day}" == "16" then
           temp_date = "#{attendance.month}/#{attendance.day}"
         end
+
+        #日付
+        row.item(:date).value(temp_date)
+
+        #曜日
+        row.item(:y).value(attendance.wday)
         
-        row.values date: temp_date, #日付
-        y: attendance.wday, #曜日
-        k: attendance.kinmu_kbn, #勤務区分
-        s_t: attendance.start_time, #勤務時間(出勤)
-        e_t: attendance.end_time, #勤務時間(退勤)
-        kb: "○", #傷病欠
-        kk: "○", #欠勤
-        hk: "○", #半欠勤
-        tk: "○", #遅刻
-        st: "○", #早退
-        sg: "○", #私外出
-        k1: "○", #特休
-        k2: "○", #振休
-        k3: "○", #有休
-        ss: "○", #出張
-        t1: "9.50", #所定時間外勤務(超過時間)
-        t2: "9.50", #所定時間外勤務(休日時間)
-        t3: "9.50", #所定時間外勤務(深夜時間)
-        t4: "9.50", #所定時間外勤務(休憩時間)
-        t5: "9.50", #所定時間外勤務(控除時間)
-        j_t: "9.50", #実働時間
-        bko: "夏季休暇" #備考
+        #勤務区分
+        row.item(:k).value(attendance.kinmu_kbn)
+        
+        #勤務時間(出勤)
+        row.item(:s_t).value(attendance.start_time)
+        
+        #勤務時間(退勤)
+        row.item(:e_t).value(attendance.end_time)
+        
+        #傷病欠
+        row.item(:kb).value("#{'○' if attendance.byouketu}")
+
+        #欠勤
+        row.item(:kk).value("#{'○' if attendance.kekkin}")
+        
+        #半欠勤
+        row.item(:hk).value("#{'○' if attendance.hankekkein}")
+        
+        #遅刻
+        row.item(:tk).value("#{'○' if attendance.tikoku}")
+        
+        #早退
+        row.item(:st).value("#{'○' if attendance.soutai}")
+        
+        #私外出
+        row.item(:sg).value("#{'○' if attendance.gaisyutu}")
+        
+        #特休
+        row.item(:k1).value("#{'○' if attendance.tokkyuu}")
+        
+        #振休
+        row.item(:k2).value("#{'○' if attendance.furikyuu}")
+        
+        #有休
+        row.item(:k3).value("#{'○' if attendance.yuukyuu}")
+        
+        #出張
+        row.item(:ss).value("#{'○' if attendance.syuttyou}")
+        
+        #所定時間外勤務(超過時間)
+        row.item(:t1).value(attendance.tyouka_time)
+        
+        #所定時間外勤務(休日時間)
+        row.item(:t2).value(attendance.kyujitu_time)
+        
+        #所定時間外勤務(深夜時間)
+        row.item(:t3).value(attendance.sinya_time)
+        
+        #所定時間外勤務(休憩時間)
+        row.item(:t4).value(attendance.kyuukei_time)
+        
+        #所定時間外勤務(控除時間)
+        row.item(:t5).value(attendance.koujo_time)
+        
+        #実働時間
+        row.item(:j_t).value(attendance.jitudou_time)
+        
+        #備考
+        row.item(:bko).value(attendance.remarks)
       end
     end
 

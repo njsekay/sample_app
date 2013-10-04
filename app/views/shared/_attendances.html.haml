@@ -7,6 +7,9 @@
 %hr
 
 = form_for @user, :url => {:action => 'update'}, :html => { :class => "form-horizontal"} do |f|
+  %p
+    #{f.submit "保存", class: "btn", item_wrapper_class: "inline", :onClick => ("return submitWithValueAndConfirm('action','confirm', '保存しますか？');")}
+    #{f.submit "帳票出力",  class: "btn", item_wrapper_class: "inline", format: 'pdf', :method => "get", :onClick => ("return submitWithValueAndConfirm('action','print', '');")}
   
   -# エラー出力
   = render 'shared/error_messages', object: f.object
@@ -14,10 +17,10 @@
   /勤怠表
   = f.hidden_field :id
   #attendances.attendances{ :data => { :attendances_size => "#{@user.attendances.size}"}}
-  %table.table.table-bordered.table-condensed
+  %table.table.table-bordered.table-condensed.table-hover
     %thead
       %tr
-        %th 日付
+        %th 日&nbsp;&nbsp;&nbsp;&nbsp;付
         %th 曜日
         %th 勤務
         %th 出勤
@@ -67,7 +70,7 @@
       = f.fields_for :attendances do |a|
         = a.hidden_field :id
         %tr{ :class => "#{(a.object.wday != '日' and a.object.wday != '土') ? 'normal' : 'error' }"}
-          %td{:width => "40px;"}
+          %td{:width => "34px;"}
             = sprintf("%02d", a.object.month)
             \/
             = sprintf("%02d", a.object.day)
@@ -77,37 +80,37 @@
             = a.hidden_field :day
             = a.hidden_field :kyuujitu_kbn
             = a.hidden_field :kaigi_kbn
-          %td
+          %td.check_form
             = a.object.wday
             = a.hidden_field :wday
-          %td= a.text_field :kinmu_kbn, :size => 3, :maxlength =>1
+          %td{:width => "24px;"}
+            = a.text_field :kinmu_kbn, :size => 1, :maxlength =>1
           %td
             .input-append.bootstrap-timepicker
-              = a.text_field :start_time, :size => 10, :maxlength =>5, class:'timepicker input-small'
+              = a.text_field :start_time, :maxlength =>5, class:'timepicker'
               %span.add-on
                 %i.icon-time
           %td
             .input-append.bootstrap-timepicker
-              = a.text_field :end_time, :size => 15, :maxlength =>5, class:'timepicker input-small'
+              = a.text_field :end_time, :maxlength =>5, class:'timepicker'
               %span.add-on
                 %i.icon-time
-          %td= a.check_box :byouketu, {}, true, false
-          %td= a.check_box :kekkin, {}, true, false
-          %td= a.check_box :hankekkein, {}, true, false
-          %td= a.check_box :tikoku, {}, true, false
-          %td= a.check_box :soutai, {}, true, false
-          %td= a.check_box :gaisyutu, {}, true, false
-          %td= a.check_box :tokkyuu, {}, true, false
-          %td= a.check_box :furikyuu, {}, true, false
-          %td= a.check_box :yuukyuu, {}, true, false
-          %td= a.check_box :hankyuu, {}, true, false
-          %td= a.text_field :tyouka_time, :size => 15, :maxlength =>5
-          %td= a.text_field :kyujitu_time, :size => 15, :maxlength =>5
-          %td= a.text_field :sinya_time, :size => 15, :maxlength =>5
-          %td= a.text_field :kyuukei_time, :size => 15, :maxlength =>5
-          %td= a.text_field :koujo_time, :size => 15, :maxlength =>5
-          %td= a.text_field :jitudou_time, :size => 15, :maxlength =>5
-          %td= a.text_field :remarks, :size => 50, :maxlength => 60
-  = f.submit "保存"
-
-= button_to "帳票出力", attendances_print_path(format: 'pdf'), {:method => "get", class: "bth"}
+          %td.check_form= a.check_box :byouketu, {}, true, false
+          %td.check_form= a.check_box :kekkin, {}, true, false
+          %td.check_form= a.check_box :hankekkein, {}, true, false
+          %td.check_form= a.check_box :tikoku, {}, true, false
+          %td.check_form= a.check_box :soutai, {}, true, false
+          %td.check_form= a.check_box :gaisyutu, {}, true, false
+          %td.check_form= a.check_box :tokkyuu, {}, true, false
+          %td.check_form= a.check_box :furikyuu, {}, true, false
+          %td.check_form= a.check_box :yuukyuu, {}, true, false
+          %td.check_form= a.check_box :syuttyou, {}, true, false
+          %td= a.text_field :tyouka_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :kyujitu_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :sinya_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :kyuukei_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :koujo_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :jitudou_time, :size => 8, :maxlength =>5, class: 'time_form'
+          %td= a.text_field :remarks, :size => 30, :maxlength => 60
+  #{f.submit "保存", class: "btn", item_wrapper_class: "inline", :onClick => ("return submitWithValueAndConfirm('action','confirm', '保存しますか？');")}
+  #{f.submit "帳票出力",  class: "btn", item_wrapper_class: "inline", format: 'pdf', :method => "get", :onClick => ("return submitWithValueAndConfirm('action','print', '');")}

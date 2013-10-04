@@ -1,3 +1,36 @@
 // Place all the styles related to the Attendances controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* 勤怠 */  
+.table th, .table td{
+  font-size: 0.8em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.timepicker{
+  width: 50px;
+}
+
+/* table.table.table-hover{ */
+/*   text-align: center; */
+/*   vertical-align: middle; */
+/*   width:100%; */
+/* } */
+
+.table thead th {
+    background-color: #D7DADB;
+}
+
+/* .table-nonfluid { */
+/*    width: auto; */
+/* } */
+
+.time_form{
+  width: 54px;
+}
+
+.check_form{
+  width: 10px;
+}

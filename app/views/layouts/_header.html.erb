@@ -5,9 +5,18 @@
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "ホーム", root_path %></li>
-          <li><%= link_to "ヘルプ", help_path %></li>
           <% if signed_in? %>
             <li><%= link_to "全ユーザ", users_path %></li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                勤怠管理 <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "勤務状況報告書", attendances_path(current_user) %></li>
+                <li><%= link_to "業務報告書", attendances_path(current_user) %></li>
+                <li><%= link_to "交通費精算書", attendances_path(current_user) %></li>
+              </ul>
+            </li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 アカウント <b class="caret"></b>
@@ -15,7 +24,6 @@
               <ul class="dropdown-menu">
                 <li><%= link_to "プロフィール", current_user %></li>
                 <li><%= link_to "設定", edit_user_path(current_user) %></li>
-                <li><%= link_to "勤怠", attendances_path(current_user) %></li>
                 <li class="divider"></li>
                 <li>
                   <%= link_to "ログアウト", signout_path, method: "delete" %>
@@ -25,6 +33,7 @@
           <% else %>
             <li><%= link_to "ログイン", signin_path %></li>
           <% end %>
+          <li><%= link_to "ヘルプ", help_path %></li>
         </ul>
       </nav>
     </div>

@@ -1,12 +1,13 @@
 <% if signed_in? %>
-  <div class="row">
-    <aside class="span2">
+  <div class="row-fluid">
+    <aside class="span1">
       <section>
-        <%= render 'shared/user_info' %>
+        <a href="<%= user_path(current_user) %>">
+          <%= gravatar_for current_user, size: 52 %>
+        </a>
       </section>
     </aside>
-    <div class="span14">
-      <h3>勤怠</h3>
+    <div class="span11">
       <%= render 'shared/attendances' %>
     </div>
   </div>
